@@ -1,0 +1,79 @@
+---
+title: "Plotting data corresponding to MET and EEA1 colocalization"
+author: "José Liboy Lugo"
+date: "2026-06-13"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Introduction
+
+This document presents the analysis of colocalization data between MET and EEA1 markers from fluorescent microscopy images.
+After image processing on python script met_coloc_analysis.py, the results are visualized in this document.
+
+
+## Loading the data
+
+Data was previously saved in a CSV files 
+
+```{r loading data}
+library(readr)
+library(dplyr)
+library(purrr)
+
+path_folder <- '/Users/joselito/Desktop/Carla_IF_data/rdata/'
+files <- list.files(path_folder, pattern = "\\.csv$", full.names = TRUE)
+
+data_list <- map(files, read_csv) # Read all CSV files into a list
+merged_data <- reduce(data_list, rbind) # Merge all data frames
+print(merged_data)
+#
+```
+
+## Plotting MET and EEA1 colocalization data
+
+
+```{r plotting, echo=FALSE}
+library(ggplot2)
+library(plotrix)
+
+plot_coloc = merged_data %>%
+  group_by(Treatment, Time) %>%
+  summarise(average_coloc = mean(Colocalization_fraction),
+            sem_coloc = std.error(Colocalization_fraction))
+
+plot_coloc$Time <- as.factor(plot_coloc$Time)
+plot_coloc$Treatment <- factor(plot_coloc$Treatment, levels = c("No Ligand", "HGF only", "HGF + SNRP"))
+
+
+
+coloc_plot <- ggplot(data = plot_coloc, aes(x = Time, y = average_coloc, fill = Treatment, group = Treatment)) + 
+geom_col(linewidth = 0.75, position = position_dodge2(width = 0.9, preserve = "single")) + 
+geom_errorbar(data = plot_coloc, width = 0.9, aes(ymin = average_coloc - sem_coloc, 
+                                       ymax = average_coloc + sem_coloc), 
+                position = position_dodge2(width = 0.9, padding = 0.8, preserve = "single")) + 
+  ylim(0,0.75) + theme_classic() + 
+  labs(x = 'time (min)', y = 'Mean fraction of MET colocalizing with endosomes')
+
+print(coloc_plot)
+
+ggsave("./coloc_plot.svg", plot = coloc_plot, width = 5, height = 5, units = "in")
+dev.off()
+```
+
+## Calculating statistical significance via t-tests 
+
+```{r t-test}
+# Perform a t-test to compare the colocalization fractions between different treatments
+t_test_15min <- t.test(Colocalization_fraction ~ Treatment, data = merged_data, subset = Time == 15)
+print(t_test_15min)
+
+t_test_30min <- t.test(Colocalization_fraction ~ Treatment, data = merged_data, subset = Time == 30)
+print(t_test_30min)
+
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
