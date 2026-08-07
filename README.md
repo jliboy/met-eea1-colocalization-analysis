@@ -65,7 +65,7 @@ Adjust the filename pattern and channel mapping if your dataset uses a different
 
 When `met_coloc_analysis.py` finishes, it writes:
 
-- `met_membrane_coloc.csv` - tabulated colocalization and feature data.
+- `met_eea1_coloc.csv` - tabulated colocalization and feature data.
 - `masked_eea1.npy` - NumPy array of EEA1 mask overlays.
 - `masked_met.npy` - NumPy array of MET mask overlays.
 
