@@ -10,7 +10,7 @@ from tkinter import filedialog
 import os
 
 import sys
-sys.path.append('functions') #Calling needed functions
+sys.path.append('src') #Calling needed functions
 
 root = tk.Tk()
 root.withdraw()
