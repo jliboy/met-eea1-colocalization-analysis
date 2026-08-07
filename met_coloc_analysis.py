@@ -10,7 +10,7 @@ from tkinter import filedialog
 import os
 
 import sys
-sys.path.append('/Users/joselito/Desktop/Github_code/met_analysis/functions') #Calling needed functions
+sys.path.append('functions') #Calling needed functions
 
 root = tk.Tk()
 root.withdraw()
@@ -188,7 +188,7 @@ import pandas as pd
 coloc_data = pd.DataFrame({'Sample':filename, 'Colocalization_fraction':overlap_signal, 'Norm_colocalization': normalized_overlap_signal, 'Nuclei_count':nuclear_count, 
                            'MET_foci_count':met_count, 'Normalized_MET_foci_count':normalized_met_count, 'EEA1_focicount': eea1_count, 'Norm_EEA1_focicount': normalized_eea1_count, 
                            'Normalized_MET_area':normalized_met_area, 'MET_total_pixel_intensity_per_nuclei': met_intensity_per_nuclei, 'Treatment':treatment, 'Time':time})
-coloc_data_path = os.path.join(directory_path, 'met_membrane_coloc.csv')
+coloc_data_path = os.path.join(directory_path, 'met_eea1_coloc.csv')
 coloc_data.to_csv(coloc_data_path, index=False)
 
 eea1_array = np.array(masked_eea1)
