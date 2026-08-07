@@ -44,7 +44,7 @@ library(purrr)
     ## Warning: package 'purrr' was built under R version 4.4.3
 
 ``` r
-path_folder <- '/Users/joselito/Desktop/Carla_IF_data/rdata/'
+path_folder <- Sys.getenv("data_path")
 files <- list.files(path_folder, pattern = "\\.csv$", full.names = TRUE)
 
 data_list <- map(files, read_csv) # Read all CSV files into a list
