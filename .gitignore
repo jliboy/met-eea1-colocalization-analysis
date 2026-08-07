@@ -51,3 +51,5 @@ rsconnect/
 # local data directory
 .Renviron
 
+#.DS_Store file
+.DS_Store
