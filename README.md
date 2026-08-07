@@ -5,7 +5,7 @@ This repository contains a pipeline for estimating the colocalization of recepto
 ## Repository structure
 
 - `met_coloc_analysis.py` - main Python analysis script.
-- `functions/` - helper modules for image segmentation and filtering.
+- `src/` - helper modules for image segmentation and filtering.
 - `data_plotting.rmd`, `data_plotting.md`, `data_plotting.html` - exploratory plotting and analysis using R.
 - `coloc_plot.svg` - example visualization generated from the analysis data.
 
